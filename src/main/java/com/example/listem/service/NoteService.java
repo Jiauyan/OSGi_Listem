@@ -1,5 +1,7 @@
 package com.example.listem.service;
 
+import com.example.listem.model.Note;
+
 import java.util.List;
 
 public interface NoteService {
@@ -9,7 +11,7 @@ public interface NoteService {
 
     boolean deleteNote(String id);
 
-    List<String> viewAllNotes();
+    List<Note> viewAllNotes();
 
-    String searchNoteByTitle(String title);
+    Note searchNoteByTitle(String title);
 }

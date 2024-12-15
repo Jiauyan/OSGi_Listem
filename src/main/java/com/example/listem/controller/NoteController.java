@@ -1,5 +1,6 @@
 package com.example.listem.controller;
 
+import com.example.listem.model.Note;
 import com.example.listem.service.NoteService;
 import org.json.JSONObject;
 
@@ -29,12 +30,12 @@ public class NoteController extends HttpServlet {
         PrintWriter out = resp.getWriter();
 
         if ("/all".equals(path)) {
-            List<String> notes = noteService.viewAllNotes();
+            List<Note> notes = noteService.viewAllNotes();
             out.write(notes.toString());
         } else if (title != null) {
-            String note = noteService.searchNoteByTitle(title);
+            Note note = noteService.searchNoteByTitle(title);
             if (note != null) {
-                out.write(note);
+                out.write(note.toString());
             } else {
                 resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
                 out.write("{\"error\": \"Note not found\"}");
