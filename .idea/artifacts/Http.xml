@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="Http">
+    <output-path>$PROJECT_DIR$/out/artifacts/Http</output-path>
+    <root id="archive" name="Http.jar">
+      <element id="file-copy" path="$PROJECT_DIR$/../listem/org.osgi.service.http-1.2.2.jar" />
+    </root>
+  </artifact>
+</component>

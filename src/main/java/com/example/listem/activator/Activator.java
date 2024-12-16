@@ -17,6 +17,7 @@ import java.net.URL;
 public class Activator implements BundleActivator {
 
     private ServiceReference<?> httpServiceRef;
+
     private HttpService httpService;
 
     @Override

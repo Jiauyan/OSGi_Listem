@@ -23,7 +23,7 @@
         <dependency>
             <groupId>org.osgi</groupId>
             <artifactId>osgi.core</artifactId>
-            <version>6.0.0</version>
+            <version>[6.0,7)</version>
         </dependency>
 
         <!-- MySQL Connector -->
@@ -31,6 +31,7 @@
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
             <version>8.0.33</version>
+            <optional>true</optional>
         </dependency>
 
         <!-- Jersey for RESTful APIs -->
@@ -44,20 +45,27 @@
         <dependency>
             <groupId>org.glassfish</groupId>
             <artifactId>javax.json</artifactId>
-            <version>1.1.4</version>
+            <version>[1.1,2)</version>
         </dependency>
 
         <!-- OSGi HTTP Service -->
         <dependency>
             <groupId>org.apache.felix</groupId>
             <artifactId>org.apache.felix.http.jetty</artifactId>
-            <version>4.0.6</version>
+            <version>[4.0,5.0)</version>
         </dependency>
 
         <dependency>
         <groupId>org.json</groupId>
         <artifactId>json</artifactId>
         <version>20210307</version>
+        </dependency>
+
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <version>[4.0,5.0)</version> <!-- Adjust version to match your HTTP Service requirements -->
+            <scope>provided</scope>
         </dependency>
 
     </dependencies>
@@ -76,8 +84,14 @@
                     <instructions>
                         <Bundle-SymbolicName>${project.groupId}.${project.artifactId}</Bundle-SymbolicName>
                         <Bundle-Version>${project.version}</Bundle-Version>
+                        <Bundle-Activator>com.example.listem.activator.Activator</Bundle-Activator>
                         <Export-Package>com.example.listem</Export-Package>
-                        <Import-Package>org.osgi.framework;version="[1.3,2.0)"</Import-Package>
+                        <Import-Package>org.osgi.framework,
+                            org.osgi.service.http,
+                            javax.servlet;version="[3.0,4)",
+                            javax.servlet.http;version="[3.0,4)",
+                            *
+                        </Import-Package>
                     </instructions>
                 </configuration>
             </plugin>
