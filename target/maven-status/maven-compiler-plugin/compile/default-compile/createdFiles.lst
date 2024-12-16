@@ -2,5 +2,6 @@ com\example\listem\util\DatabaseUtil.class
 com\example\listem\activator\Activator.class
 com\example\listem\service\NoteService.class
 com\example\listem\implementation\NoteServiceImpl.class
+com\example\listem\model\Note.class
 com\example\listem\activator\Activator$1.class
 com\example\listem\controller\NoteController.class
