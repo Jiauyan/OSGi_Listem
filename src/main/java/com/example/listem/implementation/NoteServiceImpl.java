@@ -13,7 +13,7 @@ public class NoteServiceImpl implements NoteService {
 
     @Override
     public String addNote(String title, String content) {
-        String sql = "INSERT INTO notes (title, content, created_at) VALUES (?, ?, ?)";
+        String sql = "INSERT INTO note (title, content, created_at) VALUES (?, ?, ?)";
         try (Connection conn = DatabaseUtil.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS)) {
             stmt.setString(1, title);
@@ -33,7 +33,7 @@ public class NoteServiceImpl implements NoteService {
 
     @Override
     public boolean updateNote(String id, String title, String content) {
-        String sql = "UPDATE notes SET title = ?, content = ? WHERE id = ?";
+        String sql = "UPDATE note SET title = ?, content = ? WHERE id = ?";
         try (Connection conn = DatabaseUtil.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, title);
@@ -48,7 +48,7 @@ public class NoteServiceImpl implements NoteService {
 
     @Override
     public boolean deleteNote(String id) {
-        String sql = "DELETE FROM notes WHERE id = ?";
+        String sql = "DELETE FROM note WHERE id = ?";
         try (Connection conn = DatabaseUtil.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, id);
@@ -62,7 +62,7 @@ public class NoteServiceImpl implements NoteService {
     @Override
     public List<Note> viewAllNotes() {
         List<Note> notes = new ArrayList<>();
-        String sql = "SELECT id, title, content, created_at FROM notes ORDER BY created_at DESC";
+        String sql = "SELECT id, title, content, created_at FROM note ORDER BY created_at DESC";
         try (Connection conn = DatabaseUtil.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql);
              ResultSet rs = stmt.executeQuery()) {
@@ -97,7 +97,7 @@ public class NoteServiceImpl implements NoteService {
 
     @Override
     public Note searchNoteByTitle(String title) {
-        String sql = "SELECT id, title, content FROM notes WHERE title = ?";
+        String sql = "SELECT id, title, content FROM note WHERE title = ?";
         try (Connection conn = DatabaseUtil.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, title);
