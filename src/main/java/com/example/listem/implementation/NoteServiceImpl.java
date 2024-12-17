@@ -97,7 +97,7 @@ public class NoteServiceImpl implements NoteService {
 
     @Override
     public Note searchNoteByTitle(String title) {
-        String sql = "SELECT id, title, content FROM note WHERE title = ?";
+        String sql = "SELECT * FROM note WHERE title = ?";
         try (Connection conn = DatabaseUtil.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, title);
