@@ -2,6 +2,7 @@ package com.example.listem.controller;
 
 import com.example.listem.model.Note;
 import com.example.listem.service.NoteService;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import javax.servlet.ServletException;
@@ -74,26 +75,44 @@ public class NoteController extends HttpServlet {
 
     @Override
     protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String id = req.getParameter("id");
-        String title = req.getParameter("title");
-        String content = req.getParameter("content");
-
         resp.setContentType("application/json");
         PrintWriter out = resp.getWriter();
 
-        if (id != null && title != null && content != null) {
-            boolean updated = noteService.updateNote(id, title, content);
-            if (updated) {
-                out.write("{\"message\": \"Note updated successfully\"}");
-            } else {
-                resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
-                out.write("{\"error\": \"Note not found\"}");
+        // Read and parse JSON body
+        StringBuilder sb = new StringBuilder();
+        String line;
+        try (BufferedReader reader = req.getReader()) {
+            while ((line = reader.readLine()) != null) {
+                sb.append(line);
             }
-        } else {
+        }
+        String body = sb.toString();
+
+        try {
+            // Parse JSON object
+            JSONObject jsonObject = new JSONObject(body); // Assuming org.json library
+            String id = jsonObject.optString("id");
+            String title = jsonObject.optString("title");
+            String content = jsonObject.optString("content");
+
+            if (id != null && !id.isEmpty() && title != null && !title.isEmpty() && content != null && !content.isEmpty()) {
+                boolean updated = noteService.updateNote(id, title, content);
+                if (updated) {
+                    out.write("{\"message\": \"Note updated successfully\"}");
+                } else {
+                    resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
+                    out.write("{\"error\": \"Note not found\"}");
+                }
+            } else {
+                resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                out.write("{\"error\": \"ID, title, and content are required\"}");
+            }
+        } catch (JSONException e) {
             resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            out.write("{\"error\": \"ID, title, and content are required\"}");
+            out.write("{\"error\": \"Invalid JSON format\"}");
         }
     }
+
 
     @Override
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
